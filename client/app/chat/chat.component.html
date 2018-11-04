@@ -1,0 +1,27 @@
+<div class="row chat-container">
+    <ul class="col-md-3 list-group">
+        <li *ngFor="let usr of users" class="list-group-item" [ngClass]="{'active': usr.active}" (click)="changeUser(usr)">
+            <img src="./assets/avatar.png" class="pull-left">
+            <div class="pull-left">
+                <div class="name">{{usr.name}}</div>
+                <div class="email">{{usr.email}}</div>
+            </div>
+            <span *ngIf="usr.notification" class="pull-right"><i class="fa fa-envelope"></i></span>
+        </li>
+    </ul>
+    <div class="col-md-9 message-main">
+        <div class="row message-scroll" #scrollDiv>
+            <div class="messages-container">
+                <div class="message-list-container">
+                    <p *ngFor="let chat of chats" [ngClass]="{'to-message': chat.from_user == user.id}">
+                        {{chat.message}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="message-container" class="row">
+            <textarea [(ngModel)]="chatContent" (keyup.enter)="sendMessage()" class="col-md-10"></textarea>
+            <button class="col-md-2 btn btn-default" (click)="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>

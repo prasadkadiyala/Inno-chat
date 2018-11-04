@@ -1,0 +1,15 @@
+<header>
+  <h1 class="header-title pull-left">Inno Chat</h1>
+  <div class="pull-right dropdown" *ngIf="appService.user">
+    <img src="./assets/avatar.png">
+    <div class="dropdown-content" (click)="logout()">
+      <a><i class="fa fa-sign-out"></i><span>Logout</span></a>
+    </div>
+  </div>
+</header>
+<div class="container-fluid main-container">
+  <router-outlet></router-outlet>
+</div>
+
+<footer>
+</footer>

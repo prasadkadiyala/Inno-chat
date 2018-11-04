@@ -1,0 +1,52 @@
+<div class="row register-container">
+    <div class="abs-center">
+        <div class="form-header center">
+            Register
+        </div>
+        <div class="col-md-12 form-container">
+            <form action="" [formGroup]="registerForm">
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email Address">
+                    <div *ngIf="registerForm.controls['email'].errors && !registerForm.controls['email'].pristine && !registerForm.controls['email'].untouched"
+                        class="error-msg">
+                        <div [hidden]="!registerForm.controls['email'].errors.required">Email is required.</div>
+                        <div [hidden]="!registerForm.controls['email'].errors.email">Email is invalid.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
+                    <div *ngIf="registerForm.controls['name'].errors && !registerForm.controls['name'].pristine && !registerForm.controls['name'].untouched"
+                        class="error-msg">
+                        <div [hidden]="!registerForm.controls['name'].errors.required">Name is required.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="pwd" formControlName="password" placeholder="Password">
+                    <div *ngIf="registerForm.controls['password'].errors && !registerForm.controls['password'].pristine && !registerForm.controls['password'].untouched"
+                        class="error-msg">
+                        <div [hidden]="!registerForm.controls['password'].errors.required">Password is required.</div>
+                        <div [hidden]="!registerForm.controls['password'].errors.minlength">Password should contain
+                            atleast 6 charecters</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="repwd" formControlName="repassword" placeholder="Confirm Password">
+                    <div *ngIf="registerForm.controls['repassword'].errors && !registerForm.controls['repassword'].pristine && !registerForm.controls['repassword'].untouched"
+                        class="error-msg">
+                        <div [hidden]="!registerForm.controls['repassword'].errors.required">Password is required.</div>
+                        <div [hidden]="!registerForm.controls['repassword'].errors.minlength">Password should contain
+                            atleast 6 charecters</div>
+                        <div [hidden]="!registerForm.errors.mismach">Passwords not matched</div>
+                    </div>
+                    <div *ngIf="registerForm.errors && !registerForm.controls['repassword'].pristine && !registerForm.controls['repassword'].untouched"
+                        class="error-msg">
+                        <div [hidden]="!registerForm.errors.mismatch">Passwords not matched</div>
+                    </div>
+                </div>
+                <div class="pull-right form-footer">
+                    <button type="submit" class="btn btn-default" [disabled]="!registerForm.valid" (click)="registerUser()">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

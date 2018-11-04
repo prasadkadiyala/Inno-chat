@@ -1,0 +1,29 @@
+<div class="row login-container">
+    <div class="abs-center">
+        <div class="form-header center">
+            Member Login
+        </div>
+        <div class="col-md-12 form-container">
+            <form [formGroup]="loginForm">
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email Address">
+                    <div *ngIf="loginForm.controls['email'].errors && !loginForm.controls['email'].pristine && !loginForm.controls['email'].untouched"
+                        class="error-msg">
+                        <div [hidden]="!loginForm.controls['email'].errors.required">Email is required.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="pwd" formControlName="password" placeholder="Password">
+                    <div *ngIf="loginForm.controls['password'].errors && !loginForm.controls['password'].pristine && !loginForm.controls['password'].untouched"
+                        class="error-msg">
+                        <div [hidden]="!loginForm.controls['password'].errors.required">Password is required.</div>
+                    </div>
+                </div>
+                <div class="pull-right form-footer">
+                    <button type="button" (click)="register()" class="btn btn-link">Register</button>
+                    <button type="submit" (click)="doLogin()" class="btn btn-default" [disabled]="!loginForm.valid">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
