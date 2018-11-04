@@ -49,15 +49,20 @@ io.on('connection', (socket) => {
 
 router.post('/register', (req, res, next) => {
     console.log("register api executed");
-    dbManager.registerUser(req.body, function (result) {
-        io.emit('new-user-added', { message: req.body })
-        res.send(result);
+    dbManager.registerUser(req.body, (response) => {
+        res.send(response);
+        dbManager.getUser(req.body, (result) => {
+            if (result.status === "SUCCESS") {
+                console.log(result.data)
+                io.emit('new-user-added', { message: result.data });
+            }
+        });
     });
 });
 
 router.post('/login', (req, res, next) => {
     console.log("login api executed");
-    dbManager.validateUser(req.body, function (result) {
+    dbManager.validateUser(req.body, (result) => {
         res.send(result);
     })
 });

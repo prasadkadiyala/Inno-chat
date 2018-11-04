@@ -133,5 +133,26 @@ module.exports = {
                 callback(resultObj);
             }
         });
+    },
+
+    getUser: (request, callback) => {
+        var resultObj = { message: "", status: "" };
+        db.get("select id,name,email from USERS where email=$email", { $email: request.email }, (error, user) => {
+            if (error) {
+                console.error(error);
+                resultObj.status = "FAILURE";
+                resultObj.message = "Unable to fetch user data"
+                callback(resultObj);
+            } else if (user) {
+                console.log(user);
+                resultObj.status = "SUCCESS";
+                resultObj.data = user;
+                callback(resultObj);
+            } else {
+                resultObj.status = "FAILURE";
+                resultObj.message = "User not Found";
+                callback(resultObj);
+            }
+        })
     }
 }

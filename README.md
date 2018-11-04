@@ -1,7 +1,8 @@
 # InnoChat
+Real time Chat application with using Angular 7, Express, Node, socket.io and sqlite
 
 ## Requirements
-Node Js 
+Node Js (used v8.11.3 for development)
 
 ## Instuctions to use the chat application
 1)  Clone the repository

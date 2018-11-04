@@ -111,7 +111,9 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     private onChatHistory(data) {
         if (data.userId == this.user.id) {
-            this.chats = data.chats;
+            if(data.chats){
+                this.chats = data.chats;
+            } 
             this.scrollSetToBottom();
         }
     }
