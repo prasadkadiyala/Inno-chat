@@ -17,3 +17,12 @@ Node Js (used v8.11.3 for development)
 2) User registration page for creating new user
 3) Login screen for user login
 4) Chat screen for sending the message to other users.  
+
+## Users
+
+We are created two users in the data base for testing purpose
+
+User Name: pradeepcg@hotmail.com  Passowrd: abc123
+User Name: pkadiyala@innominds.com Password: abc123
+
+If you want more users feel free to create using the registration page.
