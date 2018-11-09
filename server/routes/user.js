@@ -18,6 +18,7 @@ io.on('connection', (socket) => {
         console.log(`Message Received from user ${data.from_user}`);
         dbManager.saveChat(data, (result) => {
             if (result.status === "SUCCESS") {
+                data.id = result.data;
                 console.log(`Broadcoasting message from user ${data.from_user}`);
                 io.emit('new-message', { message: data });
             }
@@ -45,7 +46,25 @@ io.on('connection', (socket) => {
             }
         });
     });
+
+    socket.on('message-status-change', (data) => {
+        //data.status = 2;
+        dbManager.updateMessageStatus(data, (result) => {
+            io.emit('message-status-change', { message: data });
+        });  
+    });
+
+    socket.on('message-read', (data) => {
+        data.status = 3;
+        dbManager.updateMessageStatus(data, (result) => {
+            io.emit('message-status-change', { message: data });
+        });  
+    });
+
+
 });
+
+
 
 router.post('/register', (req, res, next) => {
     console.log("register api executed");

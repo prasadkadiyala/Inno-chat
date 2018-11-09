@@ -12,7 +12,8 @@ var chatSchema = "CREATE TABLE CHATS("
     + "id INTEGER PRIMARY KEY,"
     + "from_user INTEGER,"
     + "to_user INTEGER,"
-    + "message TEXT"
+    + "message TEXT,"
+    + "status INTIGER"
     + " )";
 
 var sqlite3 = require("sqlite3").verbose();
@@ -105,7 +106,7 @@ module.exports = {
 
     saveChat: (request, callback) => {
         var resultObj = { message: "", status: "" };
-        db.run("INSERT INTO CHATS(id,from_user,to_user,message) VALUES (?,?,?, ?)", [null, request.from_user, request.to_user, request.message], (error) => {
+        db.run("INSERT INTO CHATS(id,from_user,to_user,message,status) VALUES (?,?,?,?, ?)", [null, request.from_user, request.to_user, request.message, 1], function(error, res) {
             if (error) {
                 console.error(error);
                 resultObj.status = "FAILURE";
@@ -114,6 +115,8 @@ module.exports = {
             } else {
                 console.log("message saved");
                 resultObj.status = "SUCCESS";
+                console.log(this.lastID)
+                resultObj.data = this.lastID
                 callback(resultObj);
             }
         });
@@ -154,5 +157,21 @@ module.exports = {
                 callback(resultObj);
             }
         })
+    },
+
+    updateMessageStatus: (request, callback) => {
+        var resultObj = { message: "", status: "" };
+        db.run("update CHATS set status=$messageStatus where id=$messageId", {$messageStatus: request.status, $messageId: request.id}, (error)=>{
+            if (error) {
+                console.error(error);
+                resultObj.status = "FAILURE";
+                resultObj.message = "Unable to fetch user data"
+                callback(resultObj);
+            }else {
+                console.log("message Status updated" + request.status)
+                resultObj.status = "SUCCESS";
+                callback(resultObj);
+            }
+        });
     }
 }

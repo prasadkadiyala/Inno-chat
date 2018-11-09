@@ -21,6 +21,8 @@ export interface ILoginCredentials {
 export interface IMessage {
     from_user: number,
     to_user: number,
-    message: string
+    message: string,
+    id?: number;
+    status?: number;
 }
 

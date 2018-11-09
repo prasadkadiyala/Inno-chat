@@ -140,6 +140,12 @@ body{
                                 float: left;
                                 word-break: break-all;
                                 max-width: 80%;
+                                .delivered{
+                                    color: green;
+                                }
+                                .read{
+                                    color: blue;
+                                }
                             }
                             .to-message{
                                 float: right;

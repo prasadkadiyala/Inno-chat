@@ -24,6 +24,14 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     ngOnInit() {
         this.user = this.appService.user
         let hostname = window.location.hostname;
+        window.onfocus = ()=>{
+            for (var i=0; i<this.chats.length; i++){
+                if(this.chats[i].status != 3 && this.chats[i].to_user == this.user.id){
+                    this.chats[i].status = 3
+                    this.socket.emit("message-status-change", this.chats[i]);
+                }
+            }
+        }
         //socket initialize
         this.socket = io(`http://${hostname}:4000`);
 
@@ -37,6 +45,8 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.socket.on('response-chats', this.onChatHistory.bind(this));
 
         this.socket.emit('request-users', { userId: this.user.id });
+
+        this.socket.on('message-status-change', this.onMessageStatus.bind(this))
     }
 
     ngAfterViewChecked() {
@@ -58,7 +68,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
                 message: this.chatContent
             }
             this.socket.emit("send-message", chatMessage);
-            this.chats.push(chatMessage);
+            //this.chats.push(chatMessage);
             this.chatContent = '';
             this.scrollSetToBottom();
         } else {
@@ -85,15 +95,29 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     private onNewMeaage(data) {
+        if(data.message.from_user == this.user.id){
+            this.chats.push(data.message);
+        }
         console.log(data)
         if (data.message.to_user == this.user.id) {
             if (data.message.from_user == this.selectedUser.id) {
+                data.message.status = 3;
                 this.chats.push(data.message);
             } else {
                 let sender = this.users.find(obj => obj.id == data.message.from_user);
                 sender.notification = true;
             }
+            data.message.status = 2;
+            this.socket.emit("message-status-change", data.message);
         }
+
+        this.scrollSetToBottom();
+    }
+
+    private onMessageStatus(data){
+       let message = data.message;
+        let msg = this.chats.find(obj => obj.id == message.id);
+        msg.status = message.status;
     }
 
     private updateUsers(data) {
@@ -113,6 +137,13 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
         if (data.userId == this.user.id) {
             if(data.chats){
                 this.chats = data.chats;
+
+               for (var i=0; i<this.chats.length; i++){
+                   if(this.chats[i].status != 3 && this.chats[i].to_user == this.user.id){
+                       this.chats[i].status = 3
+                       this.socket.emit("message-status-change", this.chats[i]);
+                   }
+               }
             } 
             this.scrollSetToBottom();
         }

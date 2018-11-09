@@ -14,7 +14,7 @@
             <div class="messages-container">
                 <div class="message-list-container">
                     <p *ngFor="let chat of chats" [ngClass]="{'to-message': chat.from_user == user.id}">
-                        {{chat.message}}
+                        {{chat.message}} <i class="fa fa-check" [ngClass]="{delivered:chat.status == 2, read: chat.status == 3}"></i>
                     </p>
                 </div>
             </div>
